@@ -19,17 +19,37 @@ export const metadata: Metadata = {
   title: "Ledger — Mortgage Pipeline Tracker",
   description:
     "Track UK mortgages through your pipeline, from enquiry to completion.",
-  icons: {
-    icon: "/icons/icon-512x512.png",
-    apple: "/icons/icon-180x180.png",
-  },
+  // Using a static public/manifest.json instead of the app/manifest.ts
+  // file convention — that means it's NOT auto-linked, so it has to be
+  // pointed to explicitly here.
   manifest: "/manifest.json",
+  // Same reasoning for icons: app/icon.png, apple-icon.png, and
+  // favicon.ico (the auto-detected convention files) were removed, so
+  // these need to be configured explicitly too, pointing at the actual
+  // files now sitting in public/icons/.
+  icons: {
+    icon: [
+      { url: "/icons/icon-192x192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icons/icon-512x512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [
+      { url: "/icons/icon-180x180.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
+  appleWebApp: {
+    // Still needed even with the manifest's "display": "standalone" —
+    // iOS Safari doesn't reliably honour that on its own.
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Ledger",
+  },
 };
 
 export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  themeColor: "#000000",
+  themeColor: "#1C2B39",
+  // Lets the app draw edge-to-edge under the notch/status bar in
+  // standalone mode instead of leaving a black bar there.
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
