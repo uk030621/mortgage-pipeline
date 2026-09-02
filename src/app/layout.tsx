@@ -59,6 +59,19 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
+      <head>
+        {/*
+          Next.js's `appleWebApp.capable` metadata field emits
+          `<meta name="mobile-web-app-capable">` instead of the classic
+          `apple-mobile-web-app-capable` — a known Next.js regression
+          (vercel/next.js#70272, #74524), changed to silence a Chrome
+          DevTools deprecation warning. iOS Safari still requires the
+          old tag name to actually launch in fullscreen/standalone mode
+          from a home-screen icon, so it's added directly here rather
+          than relying on the (currently broken) metadata config.
+        */}
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+      </head>
       <body className="font-sans">
         <Providers>{children}</Providers>
       </body>
