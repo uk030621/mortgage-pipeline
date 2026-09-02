@@ -18,7 +18,7 @@ export default function Sidebar() {
   return (
     <>
       {/* Mobile top bar */}
-      <div className="md:hidden flex items-center justify-between border-b border-rule bg-paper px-4 py-3 sticky top-0 z-30">
+      <div className="md:hidden flex items-center justify-between border-b border-rule bg-paper px-4 py-3 sticky top-0 z-30 pt-[max(0.75rem,env(safe-area-inset-top))]">
         <span className="font-display italic text-lg text-ink">Ledger</span>
         <button
           onClick={() => setOpen(true)}
@@ -36,14 +36,23 @@ export default function Sidebar() {
             className="absolute inset-0 bg-ink/40"
             onClick={() => setOpen(false)}
           />
-          <nav className="absolute right-0 top-0 h-full w-64 bg-paper border-l border-rule p-6 flex flex-col">
+          <nav className="absolute right-0 top-0 h-full w-64 bg-paper border-l border-rule p-6 flex flex-col pt-[max(1.5rem,env(safe-area-inset-top))] pb-[max(1.5rem,env(safe-area-inset-bottom))]">
             <div className="flex items-center justify-between mb-8">
-              <span className="font-display italic text-lg text-ink">Ledger</span>
-              <button onClick={() => setOpen(false)} aria-label="Close menu" className="p-1">
+              <span className="font-display italic text-lg text-ink">
+                Ledger
+              </span>
+              <button
+                onClick={() => setOpen(false)}
+                aria-label="Close menu"
+                className="p-1"
+              >
                 <CloseIcon />
               </button>
             </div>
-            <SidebarLinks pathname={pathname} onNavigate={() => setOpen(false)} />
+            <SidebarLinks
+              pathname={pathname}
+              onNavigate={() => setOpen(false)}
+            />
             <div className="mt-auto pt-6 border-t border-rule">
               <SidebarFooter email={session?.user?.email} />
             </div>
@@ -52,8 +61,10 @@ export default function Sidebar() {
       )}
 
       {/* Desktop rail */}
-      <nav className="hidden md:flex md:flex-col md:w-56 md:shrink-0 md:h-screen md:sticky md:top-0 border-r border-rule px-6 py-8">
-        <span className="font-display italic text-xl text-ink mb-10">Ledger</span>
+      <nav className="hidden md:flex md:flex-col md:w-56 md:shrink-0 md:h-dvh md:sticky md:top-0 border-r border-rule px-6 py-8 pb-[max(2rem,env(safe-area-inset-bottom))]">
+        <span className="font-display italic text-xl text-ink mb-10">
+          Ledger
+        </span>
         <SidebarLinks pathname={pathname} />
         <div className="mt-auto pt-6 border-t border-rule">
           <SidebarFooter email={session?.user?.email} />
@@ -110,7 +121,14 @@ function SidebarFooter({ email }: { email?: string | null }) {
 
 function MenuIcon() {
   return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    >
       <path d="M3 6h18M3 12h18M3 18h18" strokeLinecap="round" />
     </svg>
   );
@@ -118,7 +136,14 @@ function MenuIcon() {
 
 function CloseIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    >
       <path d="M6 6l12 12M6 18L18 6" strokeLinecap="round" />
     </svg>
   );
