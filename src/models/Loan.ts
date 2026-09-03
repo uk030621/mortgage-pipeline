@@ -12,8 +12,9 @@ const DocumentItemSchema = new Schema(
       enum: ["not_requested", "requested", "received", "expired"],
       default: "not_requested",
     },
+    url: String,
   },
-  { _id: false },
+  { _id: false }
 );
 
 const LoanSchema = new Schema(
@@ -41,7 +42,7 @@ const LoanSchema = new Schema(
     documentsFolderUrl: String,
     notes: String,
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 export type LoanDocument = mongoose.InferSchemaType<typeof LoanSchema> & {

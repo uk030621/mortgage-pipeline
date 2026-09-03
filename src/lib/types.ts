@@ -3,6 +3,7 @@ export type DocStatus = "not_requested" | "requested" | "received" | "expired";
 export interface DocumentItem {
   name: string;
   status: DocStatus;
+  url?: string;
 }
 
 export interface Loan {
@@ -16,7 +17,6 @@ export interface Loan {
   lender?: string;
   loanType?: string;
   interestRate?: number;
-  documentsFolderUrl?: string;
   stage:
     | "lead"
     | "application"
@@ -30,6 +30,7 @@ export interface Loan {
   commissionExpected?: number;
   commissionPaid?: boolean;
   documents: DocumentItem[];
+  documentsFolderUrl?: string;
   notes?: string;
   createdAt: string;
   updatedAt: string;
