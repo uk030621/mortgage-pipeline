@@ -5,14 +5,10 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Sidebar from "@/components/Sidebar";
 import DocumentChecklist from "@/components/DocumentChecklist";
+import DocumentsFolderPrompt from "@/components/DocumentsFolderPrompt";
 import { Loan, DocumentItem } from "@/lib/types";
 import { PIPELINE_STAGES, STAGE_LABELS } from "@/lib/stages";
-import {
-  formatCurrency,
-  formatDate,
-  deadlineUrgency,
-  urgencyStyles,
-} from "@/lib/format";
+import { formatCurrency, formatDate, deadlineUrgency, urgencyStyles } from "@/lib/format";
 
 // Next.js 15+: params is a Promise in both server and client components.
 // In a client component it's unwrapped with React's `use()` hook (below),
@@ -51,12 +47,7 @@ export default function LoanDetailPage({
 
   async function handleDelete() {
     if (!loan) return;
-    if (
-      !confirm(
-        `Delete the mortgage for ${loan.borrowerName}? This can't be undone.`,
-      )
-    )
-      return;
+    if (!confirm(`Delete the mortgage for ${loan.borrowerName}? This can't be undone.`)) return;
     const res = await fetch(`/api/loans/${loan._id}`, { method: "DELETE" });
     if (res.ok) router.push("/");
   }
@@ -71,9 +62,7 @@ export default function LoanDetailPage({
         {loan && (
           <>
             <div className="flex items-start justify-between mb-1">
-              <h1 className="font-display text-2xl text-ink">
-                {loan.borrowerName}
-              </h1>
+              <h1 className="font-display text-2xl text-ink">{loan.borrowerName}</h1>
               <div className="flex gap-3 shrink-0 ml-4">
                 <Link
                   href={`/loans/${loan._id}/edit`}
@@ -93,20 +82,11 @@ export default function LoanDetailPage({
               <p className="text-sm text-slate mb-6">{loan.propertyAddress}</p>
             )}
 
-            <StageStepper
-              stage={loan.stage}
-              onChange={(stage) => patch({ stage })}
-            />
+            <StageStepper stage={loan.stage} onChange={(stage) => patch({ stage })} />
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-rule border border-rule my-6">
-              <Stat
-                label="Mortgage amount"
-                value={formatCurrency(loan.loanAmount)}
-              />
-              <Stat
-                label="Rate"
-                value={loan.interestRate ? `${loan.interestRate}%` : "—"}
-              />
+              <Stat label="Mortgage amount" value={formatCurrency(loan.loanAmount)} />
+              <Stat label="Rate" value={loan.interestRate ? `${loan.interestRate}%` : "—"} />
               <Stat label="Lender" value={loan.lender || "—"} />
               <Stat label="Type" value={loan.loanType || "—"} />
             </div>
@@ -140,6 +120,9 @@ export default function LoanDetailPage({
                   </Link>
                 )}
               </div>
+              {!loan.documentsFolderUrl && (
+                <DocumentsFolderPrompt borrowerName={loan.borrowerName} />
+              )}
               <DocumentChecklist
                 documents={loan.documents}
                 onChange={(documents: DocumentItem[]) => patch({ documents })}
@@ -147,9 +130,7 @@ export default function LoanDetailPage({
             </section>
 
             <section className="mb-8">
-              <h2 className="font-display text-base text-ink mb-3">
-                Commission
-              </h2>
+              <h2 className="font-display text-base text-ink mb-3">Commission</h2>
               <div className="border border-rule px-4 py-3 flex items-center justify-between">
                 <div>
                   <p className="text-sm text-ink">
@@ -160,9 +141,7 @@ export default function LoanDetailPage({
                   <input
                     type="checkbox"
                     checked={!!loan.commissionPaid}
-                    onChange={(e) =>
-                      patch({ commissionPaid: e.target.checked })
-                    }
+                    onChange={(e) => patch({ commissionPaid: e.target.checked })}
                   />
                   Paid
                 </label>
@@ -172,9 +151,7 @@ export default function LoanDetailPage({
             {loan.notes && (
               <section>
                 <h2 className="font-display text-base text-ink mb-2">Notes</h2>
-                <p className="text-sm text-ink whitespace-pre-wrap">
-                  {loan.notes}
-                </p>
+                <p className="text-sm text-ink whitespace-pre-wrap">{loan.notes}</p>
               </section>
             )}
           </>
@@ -225,9 +202,7 @@ function DeadlineCard({ label, date }: { label: string; date?: string }) {
     <div className={`border border-rule px-4 py-3 ${urgencyStyles[urgency]}`}>
       <p className="text-xs text-slate">{label}</p>
       <p className="font-display text-lg text-ink mt-0.5">{formatDate(date)}</p>
-      {urgency === "urgent" && (
-        <p className="text-xs text-rust mt-1">Due soon</p>
-      )}
+      {urgency === "urgent" && <p className="text-xs text-rust mt-1">Due soon</p>}
       {urgency === "past" && <p className="text-xs text-rust mt-1">Past due</p>}
     </div>
   );
