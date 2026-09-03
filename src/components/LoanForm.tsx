@@ -173,13 +173,13 @@ export default function LoanForm({ initial, loanId }: Props) {
       </Section>
 
       <Section title="Deadlines & commission">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 min-w-0">
           <Field label="Offer expiry">
             <input
               type="date"
               value={form.rateLockExpiration}
               onChange={(e) => update("rateLockExpiration", e.target.value)}
-              className={inputClass}
+              className={`${inputClass} w-full max-w-full min-w-0 box-border appearance-none [&::-webkit-calendar-picker-indicator]:max-w-full`}
             />
           </Field>
           <Field label="Completion date">
@@ -187,7 +187,7 @@ export default function LoanForm({ initial, loanId }: Props) {
               type="date"
               value={form.closingDate}
               onChange={(e) => update("closingDate", e.target.value)}
-              className={inputClass}
+              className={`${inputClass} w-full max-w-full min-w-0 box-border appearance-none [&::-webkit-calendar-picker-indicator]:max-w-full`}
             />
           </Field>
           <Field label="Expected commission (£)">
@@ -195,7 +195,7 @@ export default function LoanForm({ initial, loanId }: Props) {
               type="number"
               value={form.commissionExpected}
               onChange={(e) => update("commissionExpected", e.target.value)}
-              className={inputClass}
+              className={`${inputClass} w-full max-w-full min-w-0 box-border`}
             />
           </Field>
         </div>
