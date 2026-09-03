@@ -16,6 +16,7 @@ export interface Loan {
   lender?: string;
   loanType?: string;
   interestRate?: number;
+  documentsFolderUrl?: string;
   stage:
     | "lead"
     | "application"

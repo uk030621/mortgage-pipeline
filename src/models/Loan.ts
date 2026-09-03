@@ -13,7 +13,7 @@ const DocumentItemSchema = new Schema(
       default: "not_requested",
     },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const LoanSchema = new Schema(
@@ -38,9 +38,10 @@ const LoanSchema = new Schema(
     commissionExpected: Number,
     commissionPaid: { type: Boolean, default: false },
     documents: { type: [DocumentItemSchema], default: [] },
+    documentsFolderUrl: String,
     notes: String,
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export type LoanDocument = mongoose.InferSchemaType<typeof LoanSchema> & {

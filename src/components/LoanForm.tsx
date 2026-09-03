@@ -28,6 +28,7 @@ export default function LoanForm({ initial, loanId }: Props) {
     rateLockExpiration: initial?.rateLockExpiration?.slice(0, 10) ?? "",
     closingDate: initial?.closingDate?.slice(0, 10) ?? "",
     commissionExpected: initial?.commissionExpected?.toString() ?? "",
+    documentsFolderUrl: initial?.documentsFolderUrl ?? "",
     notes: initial?.notes ?? "",
   });
 
@@ -131,7 +132,15 @@ export default function LoanForm({ initial, loanId }: Props) {
               onChange={(e) => update("loanType", e.target.value)}
               className={inputClass}
             >
-              {["Fixed rate", "Tracker", "Discount", "Variable (SVR)", "Offset", "Help to Buy", "Buy-to-let"].map((t) => (
+              {[
+                "Fixed rate",
+                "Tracker",
+                "Discount",
+                "Variable (SVR)",
+                "Offset",
+                "Help to Buy",
+                "Buy-to-let",
+              ].map((t) => (
                 <option key={t} value={t}>
                   {t}
                 </option>
@@ -192,6 +201,23 @@ export default function LoanForm({ initial, loanId }: Props) {
         </div>
       </Section>
 
+      <Section title="Documents">
+        <Field label="Documents folder link">
+          <input
+            type="url"
+            value={form.documentsFolderUrl}
+            onChange={(e) => update("documentsFolderUrl", e.target.value)}
+            placeholder="https://..."
+            className={inputClass}
+          />
+        </Field>
+        <p className="text-xs text-slate -mt-2">
+          Paste a shareable link to this mortgage's folder — OneDrive,
+          SharePoint, Google Drive, or Dropbox all work. Set the folder's
+          sharing permissions yourself; this app only stores the link.
+        </p>
+      </Section>
+
       <Section title="Notes">
         <textarea
           rows={4}
@@ -217,7 +243,13 @@ export default function LoanForm({ initial, loanId }: Props) {
 const inputClass =
   "w-full border border-rule bg-white px-3 py-2 text-base text-ink focus:border-ink outline-none";
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
+function Section({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
   return (
     <fieldset>
       <legend className="font-display text-sm text-slate mb-3">{title}</legend>
